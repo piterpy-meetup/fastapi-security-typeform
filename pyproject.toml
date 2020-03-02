@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "fastapi-security-typeform"
+version = "1.0.0"
+description = ""
+authors = ["Dima Boger <meetup@piterpy.ru>"]
+license = "MIT"
+readme = 'README.md'
+repository = "https://github.com/piterpy-meetup/fastapi-security-typeform"
+homepage = "https://github.com/piterpy-meetup/fastapi-security-typeform"
+keywords = ['fastapi', 'fastapi security', 'typeform', 'signature header', 'http signatures', 'typeform webhhok', 'hmac sha256']
+include = ["fastapi_security_typeform/py.typed"]
+
+[tool.poetry.dependencies]
+python = ">=3.6"
+fastapi = "*"
+
+[tool.poetry.dev-dependencies]
+black = "^19.10b0"
+mypy = "^0.761"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
