@@ -57,7 +57,9 @@ class SignatureHeader(SecurityBase):
 
         if signature != check_signature:
             if self.auto_error:
-                raise HTTPException(status_code=HTTP_403_FORBIDDEN, detail="Bad signature")
+                raise HTTPException(
+                    status_code=HTTP_403_FORBIDDEN, detail="Bad signature"
+                )
             else:
                 return None
 
