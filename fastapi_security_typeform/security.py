@@ -1,4 +1,7 @@
-from typing import Union
+from typing import (
+    Union,
+    Optional,
+)
 
 from fastapi import HTTPException
 from fastapi.openapi.models import HTTPBearer
@@ -23,15 +26,17 @@ class SignatureHeader(SecurityBase):
         secret: Union[bytes, bytearray],
         signature_prefix: str = "sha256=",
         header_name: str = "Typeform-Signature",
-        hash_method: HashMethodType = hmac_sha256
+        hash_method: HashMethodType = hmac_sha256,
+        auto_error: bool = True
     ):
         self.model = HTTPBearer(scheme=self.scheme_name)
         self.signature_prefix = signature_prefix
         self.secret = secret
         self.header_name = header_name
         self.hash_method = hash_method
+        self.auto_error = auto_error
 
-    async def __call__(self, request: Request) -> None:
+    async def __call__(self, request: Request) -> Optional[str]:
         """
         Extract signature from headers and validate it.
 
@@ -39,15 +44,21 @@ class SignatureHeader(SecurityBase):
         """
         signature: str = request.headers.get(self.header_name)
         if not signature:
-            raise HTTPException(
-                status_code=HTTP_403_FORBIDDEN, detail="Not authenticated"
-            )
+            if self.auto_error:
+                raise HTTPException(
+                    status_code=HTTP_403_FORBIDDEN, detail="Not authenticated"
+                )
+            else:
+                return None
 
         payload = await request.body()
         payload_hash = self.hash_method(payload, self.secret,)
         check_signature = self.signature_prefix + payload_hash
 
         if signature != check_signature:
-            raise HTTPException(status_code=HTTP_403_FORBIDDEN, detail="Bad signature")
+            if self.auto_error:
+                raise HTTPException(status_code=HTTP_403_FORBIDDEN, detail="Bad signature")
+            else:
+                return None
 
-        return None
+        return signature

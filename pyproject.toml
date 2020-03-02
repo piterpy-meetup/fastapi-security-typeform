@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fastapi-security-typeform"
-version = "1.0.0"
+version = "1.0.1"
 description = ""
 authors = ["Dima Boger <meetup@piterpy.ru>"]
 license = "MIT"
