@@ -5,19 +5,14 @@ Security plugin for [FastAPI](https://github.com/tiangolo/fastapi) which allows 
 
 ## How to setup signing flow for your typeform webhook
 
-**Current flow** is here https://developer.typeform.com/webhooks/secure-your-webhooks/
+**Current flow** is here https://developer.typeform.com/webhooks/secure-your-webhooks/ 
+(it's little bit a lie about `working only via API`)
 
 tl;dr:
- * [create personal access token](https://developer.typeform.com/get-started/personal-access-token/)
+ * create a webhook via UI or API
  * generate random string (secret)
- * curl to create new webhook
- ```
-curl --request PUT \
-  --url https://api.typeform.com/forms/{form_id}/webhooks/{tag} \
-  --header 'Authorization: bearer {your_access_token}' \
-  --header 'Content-Type: application/json' \
-  -d '{"url":"https://{webhook_endpoint}", "enabled":true, "secret": "{your_secret}"}'
-``` 
+ * update a webhook via UI or API with your secret
+ 
 
 
 ## How to use
